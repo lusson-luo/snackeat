@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <canvas id="cas" style="border:solid 1px #CCC;background-color: black" height="300" width="300"></canvas>
+</body>
+<script>
+var sn = [ /*存蛇身体坐标的二维数组*/
+        [2, 4],
+        [1, 4]
+    ],
+    action = [
+        [-1, 0],
+        [0, -1],
+        [1, 0],
+        [0, 1]
+    ],
+    dz = [3, 4],
+    /*食物坐标*/
+    rlx = [1, 0],
+    /*蛇下一步爬行操作*/
+    fx, /*当前方向，即键盘上下左右值*/
+    n, /*蛇头坐标*/
+    ctx = document.getElementById("cas").getContext("2d");
+
+Array.prototype.indexOfArray = function() {
+    var len = arguments.length;
+    if (1 == len) {
+        var arr = arguments[0];
+        for (var i = this.length - 1; i >= 0; i--) {
+            if (this[i].toString() == arr.toString()) {
+                return i;
+            }
+        }
+    } else {
+        var arr = arguments[0];
+        var index = ~~(arguments[1]);
+        for (var i = this.length - 1; i >= index; i--) {
+            if (this[i].toString() == arr.toString()) {
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+function draw(t, c) {
+    ctx.fillStyle = c;
+    ctx.fillRect(t[0] * 20 + 1, t[1] * 20 + 1, 18, 18);
+}
+
+document.onkeydown = function(e) {
+    if ((fx - e.keyCode) % 2 != 0) {
+        fx = e.keyCode;
+        rlx = action[e.keyCode - 37] || rlx;
+    }
+}
+
+! function() {
+    sn.unshift(n = [sn[0][0] + rlx[0], sn[0][1] + rlx[1]]); //sn数组头部添加一个元素
+    if ((n[0] < 0 || n[0] > 15) || (n[1] < 0 || n[1] > 15) || sn.indexOfArray(n, 1) >= 0) {
+        return alert("GAME OVER");
+    }
+    draw(n, "Lime");
+    if (dz.toString() == n.toString()) {
+        while ((sn.indexOfArray(dz = [~~(Math.random() * 15), ~~(Math.random() * 15)])) >= 0);
+        draw(dz, "Yellow");
+    } else
+        draw(sn.pop(), "black"); //sn数组去掉最后一个元素
+    setTimeout(arguments.callee, 130);
+}();
+</script>
+
+</html>
