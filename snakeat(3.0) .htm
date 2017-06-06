@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="content" style="text-align:center">
+        <div id="points" style="font-family: 'Microsoft YaHei'; color: red"></div>
+        <div id="status" style="font-family: 'Microsoft YaHei'; color: #FF9900">跟老子快吃呀!</div>
+        <canvas id="cas" style="border:solid 1px #CCC;background-color: black" height="300" width="300"></canvas>
+        <div style="font-family: 'Microsoft YaHei'; color: #FF9900">按spance暂停，当前状态：<span id="runStatus"></span></div>
+    </div>
+</body>
+<script>
+var sn = [ /*存蛇身体坐标的二维数组*/
+        [2, 4],
+        [1, 4]
+    ],
+    action = [
+        [-1, 0],
+        [0, -1],
+        [1, 0],
+        [0, 1]
+    ],
+    dz = [3, 4],
+    /*食物坐标*/
+    rlx = [1, 0],
+    /*蛇下一步爬行操作*/
+    aj = 39,
+    /*键盘按键*/
+    fx = 0,
+    /*当前方向 0:left,1:up,2:right,3:down*/
+    n, /*蛇头坐标*/
+    f, /*头部*/
+    points = -1,
+    /*积分*/
+    run = true,
+    /* 运行状态，true:运行,false:暂停 */
+    ctx = document.getElementById("cas").getContext("2d");
+Array.prototype.indexOfArray = function() {
+    var len = arguments.length;
+    if (1 == len) {
+        var arr = arguments[0];
+        for (var i = this.length - 1; i >= 0; i--) {
+            if (this[i].toString() == arr.toString()) {
+                return i;
+            }
+        }
+    } else {
+        var arr = arguments[0];
+        var index = ~~(arguments[1]);
+        for (var i = this.length - 1; i >= index; i--) {
+            if (this[i].toString() == arr.toString()) {
+                return i;
+            }
+        }
+    }
+    return -1;
+}
+
+function draw(t, c, s) {
+    if (s == 1) {
+        ctx.beginPath();
+        switch (fx) {
+            case 1:
+                ctx.arc(t[0] * 20 + 10, t[1] * 20 + 10, 9, getMyRads(180), getMyRads(0), false); //向上
+                break;
+            case 0:
+                ctx.arc(t[0] * 20 + 10, t[1] * 20 + 10, 9, getMyRads(90), getMyRads(-90), false); //向左
+                break;
+            case 3:
+                ctx.arc(t[0] * 20 + 10, t[1] * 20 + 10, 9, getMyRads(0), getMyRads(180), false); //向下
+                break;
+            case 2:
+                ctx.arc(t[0] * 20 + 10, t[1] * 20 + 10, 9, getMyRads(-90), getMyRads(90), false); //向右
+                break;
+        }
+        ctx.fillStyle = c;
+        ctx.fill();
+        ctx.stroke(); //画蛇的头部
+    } else {
+        ctx.fillStyle = c;
+        ctx.fillRect(t[0] * 20 + 1, t[1] * 20 + 1, 18, 18);
+    }
+}
+
+function getMyRads(degrees) {
+    return (Math.PI * degrees) / 180;
+}
+
+document.onkeydown = function(e) {
+    if (e.keyCode == 32) {
+        run = !run;
+    }
+    if ((aj - e.keyCode) % 2 != 0) {
+        aj = e.keyCode;
+        fx = [0, 1, 2, 3][aj - 37];
+        rlx = action[fx] || rlx; /** 当按键不是37、38、39、40时，方向保存不变 **/
+        draw(f, "black", 2);
+    }
+}
+
+! function() {
+    if (run) {
+        $("#runStatus").html("运行");
+        sn.unshift(n = [sn[0][0] + rlx[0], sn[0][1] + rlx[1]]); //sn数组头部添加一个元素
+        f = [sn[0][0] + rlx[0], sn[0][1] + rlx[1]];
+
+        draw([sn[0][0] + rlx[0], sn[0][1] + rlx[1]], "#FF6666", 1);
+        if ((n[0] < 0 || n[0] > 14) || (n[1] < 0 || n[1] > 14) || sn.indexOfArray(n, 1) >= 0) {
+            $("#status").html("没办法，天要收你了！");
+            return alert("GAME OVER");
+        }
+        draw(n, "#FF9966", 2);
+        if (dz.toString() == n.toString()) {
+            while ((sn.indexOfArray(dz = [~~(Math.random() * 15), ~~(Math.random() * 15)])) >= 0);
+            draw(dz, "Yellow", 2);
+            points++;
+            $("#points").html("当前吃的数量：" + points);
+            switch (true) {
+                case points > 0 && points <= 1:
+                    $("#status").html("你吃得好慢咯  @/\"！");
+                    break;
+                case points > 1 && points < 10:
+                    $("#status").html("你好棒！(=^ ^=)");
+                    break;
+                case points > 10:
+                    $("#status").html("吃多了小心长胖啊！(o^.^o)");
+                    break;
+            }
+        } else
+            draw(sn.pop(), "black", 2); //sn数组去掉最后一个元素
+    } else
+        $("#runStatus").html("暂停");
+    setTimeout(arguments.callee, 130);
+}();
+</script>
+
+</html>
