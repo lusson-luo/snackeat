@@ -30,10 +30,8 @@ var sn = [ /*存蛇身体坐标的二维数组*/
     /*食物坐标*/
     rlx = [1, 0],
     /*蛇下一步爬行操作*/
-    aj = 39,
+    fx = 39,
     /*键盘按键*/
-    fx = 0,
-    /*当前方向 0:left,1:up,2:right,3:down*/
     n, /*蛇头坐标*/
     f, /*头部*/
     points = -1,
@@ -66,16 +64,16 @@ function draw(t, c, s) {
     if (s == 1) {
         ctx.beginPath();
         switch (fx) {
-            case 1:
+            case 38:
                 ctx.arc(t[0] * 20 + 10, t[1] * 20 + 10, 9, getMyRads(180), getMyRads(0), false); //向上
                 break;
-            case 0:
+            case 37:
                 ctx.arc(t[0] * 20 + 10, t[1] * 20 + 10, 9, getMyRads(90), getMyRads(-90), false); //向左
                 break;
-            case 3:
+            case 40:
                 ctx.arc(t[0] * 20 + 10, t[1] * 20 + 10, 9, getMyRads(0), getMyRads(180), false); //向下
                 break;
-            case 2:
+            case 39:
                 ctx.arc(t[0] * 20 + 10, t[1] * 20 + 10, 9, getMyRads(-90), getMyRads(90), false); //向右
                 break;
         }
@@ -96,11 +94,10 @@ document.onkeydown = function(e) {
     if (e.keyCode == 32) {
         run = !run;
     }
-    if ((aj - e.keyCode) % 2 != 0) {
-        aj = e.keyCode;
-        fx = [0, 1, 2, 3][aj - 37];
-        rlx = action[fx] || rlx; /** 当按键不是37、38、39、40时，方向保存不变 **/
-        draw(f, "black", 2);
+    if ((fx - e.keyCode) % 2 != 0 && e.keyCode != 32 && run) {
+        fx = e.keyCode;
+        rlx = action[e.keyCode - 37] || rlx; /** 当按键不是37、38、39、40时，方向保存不变 **/
+        draw(f, "black",2);
     }
 }
 
@@ -137,7 +134,7 @@ document.onkeydown = function(e) {
     } else
         $("#runStatus").html("暂停");
     setTimeout(arguments.callee, 130);
-}();
+}()
 </script>
 
 </html>
