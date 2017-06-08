@@ -108,7 +108,7 @@ var snack = new Object({
             while ((snack.sn.indexOfArray(snack.foodPos = [~~(Math.random() * 15), ~~(Math.random() * 15)])) >= 0);
             snack.snackMoveDraw(snack.foodPos, "Yellow", 2);
             snack.points++;
-            $("#snack.points").html("当前吃的数量：" + snack.points);
+            $("#points").html("当前吃的数量：" + snack.points);
             switch (true) {
                 case snack.points > 0 && snack.points <= 1:
                     $("#status").html("你吃得好慢咯  @/\"！");
