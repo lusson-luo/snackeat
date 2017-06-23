@@ -56,7 +56,8 @@ var snack = new Object({
     startAngle:0,/*开始角度*/
     endAngle: 0,/*结束角度*/
     allfoodColor: ["#DDA0DD", "#DB7093", "#D1EEEE", "#B4EEB4"],/*所有食物颜色*/
-    foodColor: "#FF6666",
+    foodColor: "#FF6666",/*当前食物颜色*/
+    eatFoodColor:"#FF6666",/*所吃食物颜色*/
     snackMoveDraw: function(t, c, s) {
         if (s == 1) {
             gameCanvas.beginPath();
@@ -95,7 +96,10 @@ var snack = new Object({
     },
     gamebody: function() {
         snack.sn.unshift(snack.headPos = [snack.sn[0][0] + snack.nextMove[0], snack.sn[0][1] + snack.nextMove[1]]); //sn数组头部添加一个元素
-        snack.snackMoveDraw(snack.lastHeadPos, snack.foodColor, 2);
+        if (snack.foodPos.toString() == snack.headPos.toString()) {
+            snack.eatFoodColor = snack.foodColor;
+        }
+        snack.snackMoveDraw(snack.lastHeadPos, snack.eatFoodColor, 2);
         snack.lastHeadPos = snack.headPos;
         if ((snack.headPos[0] < 0 || snack.headPos[0] > 14) || (snack.headPos[1] < 0 || snack.headPos[1] > 14) || snack.sn.indexOfArray(snack.headPos, 1) >= 0) {
             $("#status").html("没办法，天要收你了！");
@@ -108,7 +112,7 @@ var snack = new Object({
         snack.snackMoveDraw(snack.headPos, "#FF9966", 1);
         if (snack.foodPos.toString() == snack.headPos.toString()) {
             while ((snack.sn.indexOfArray(snack.foodPos = [~~(Math.random() * 15), ~~(Math.random() * 15)])) >= 0);
-            snack.foodColor = snack.allfoodColor[Math.random() * 4];
+            snack.foodColor = snack.allfoodColor[parseInt(Math.random() * 4)];
             snack.snackMoveDraw(snack.foodPos,snack.foodColor, 2);
             snack.points++;
             $("#points").html("当前吃的数量：" + snack.points);
