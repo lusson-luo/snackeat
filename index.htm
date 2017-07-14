@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <bgsound src="media/1761.mp3" loop="-1"></bgsound>
+    <bgsound src="media/1761.mp3" loop="-1">
     <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
     <title>snackeat game</title>
     <script src="js/jquery.min.js"></script>
@@ -180,7 +180,8 @@ document.onkeydown = function(e) {
         snack.keyCode = e.keyCode;
         snack.nextMove = snack.moveOps[e.keyCode - 37] || snack.nextMove; /** 当按键不是37、38、39、40时，方向保存不变 **/
     }
-}! function() {
+}
+! function() {
     if (snack.runStatus) {
         $("#runStatus").html("运行");
         $("#btRun").val(" Stop ");
