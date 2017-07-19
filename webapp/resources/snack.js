@@ -1,4 +1,5 @@
-var gameCanvas = document.getElementById("cas").getContext("2d");
+var gameCanvas = {};
+
 var snack = new Object({
     sn: [
         [2, 4]
@@ -120,6 +121,7 @@ var snack = new Object({
         }
     }
 })
+
 Array.prototype.indexOfArray = function() {
     var len = arguments.length;
     if (1 == len) {
@@ -144,6 +146,7 @@ Array.prototype.indexOfArray = function() {
 function getMyRads(degrees) {
     return (Math.PI * degrees) / 180;
 }
+
 document.onkeydown = function(e) {
     if (e.keyCode == 32) {
         snack.runStatus = !snack.runStatus;
@@ -154,6 +157,7 @@ document.onkeydown = function(e) {
     }
 }
 ! function() {
+    gameCanvas = $("#cas")[0].getContext("2d");
     if (snack.runStatus) {
         $("#runStatus").html("运行");
         $("#btRun").val(" Stop ");
