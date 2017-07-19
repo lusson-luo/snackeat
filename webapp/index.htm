@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--<bgsound src="media/1761.mp3" loop="-1"></bgsound>-->
+
+    <audio controls="controls" src="../resource/media/1761.mp3" hidden="hidden" loop="loop" autoplay="autoplay"></audio>
+    <meta charset="UTF-8" name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <title>snackeat</title>
+    <script src="../resource/js/jquery.min.js"></script>
+    <script type="application/javascript" src="resources/snack.js"></script>
+</head>
+
+<body>
+<div id="content" style="text-align:center">
+    <div id="points" style="font-family: 'Microsoft YaHei'; color: red"></div>
+    <div id="status" style="font-family: 'Microsoft YaHei'; color: #FF9900">跟老子快吃呀!</div>
+    <canvas id="cas" style="border:solid 1px #CCC;background-color: black" height="300" width="300"></canvas>
+    <div style="font-family: 'Microsoft YaHei'; color: #FF9900">按spance暂停，当前状态：<span id="runStatus"></span></div>
+    <div style="margin-right:55px">
+        <input type="button" style="width: 50px; height: 40px" value=" ↑ " onClick="snack.btDirection(38)">
+    </div>
+    <div>
+        <input type="button" style="width:50px;height:40px" value=" ← " onClick="snack.btDirection(37)">
+        <input type="button" style="width: 50px; height: 40px" value=" ↓ " onClick="snack.btDirection(40)">
+        <input type="button" style="width: 50px; height: 40px" value=" → " onClick="snack.btDirection(39)">
+        <input type="button" style="width: 50px; height: 40px" id="btRun" value="Stop" onClick="snack.btDirection(32)">
+    </div>
+</div>
+</body>
+<script>
+
+</script>
+
+</html>
